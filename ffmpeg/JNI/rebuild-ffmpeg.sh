@@ -6,7 +6,7 @@ log_file=rebuild-ffmpeg.log
 
 if [[ -e ${log_file} ]]
 then
-    rm ${log_file}
+    rm -rfv ${log_file}
 fi
 
 target=${1}
@@ -44,5 +44,5 @@ build_target(){
 for item in ${targets[*]}
 do
     echo "Build ${item}"
-    build_target ${item} 2>&1 1>> ${log_file} | tee -a ${log_file}
+    build_target ${item} 2>&1 | tee -a ${log_file}
 done

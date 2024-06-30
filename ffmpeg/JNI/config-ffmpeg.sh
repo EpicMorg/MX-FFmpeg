@@ -20,12 +20,12 @@ function probe_host_platform(){
 
 HOST_PLATFORM=$(probe_host_platform)
 
-# gcc 4.9로는 일부 4.2, 4.3대 x86 장비에서 crash되는 것으로 추측되어 4.8로 내린다.
-# --> NDK r13b에서 수정됨.
+# It is suspected that gcc 4.9 will crash on some 4.2 and 4.3 x86 devices, so it is downgraded to 4.8.
+# --> Fixed in NDK r13b.
 GCC_VER=4.9
 
-# NDKr12b에서의 Inline assembly 문제등으로 사용하지 않음.
-# --> NDK r13b에서 수정됨.
+# Not used due to inline assembly problems in NDKr12b.
+# --> Fixed in NDK r13b.
 CLANG_VER=3.8
 
 case $1 in
@@ -120,9 +120,9 @@ case $1 in
 		EXTRA_CFLAGS="-mtune=atom -msse3 -mssse3 -mfpmath=sse"
 		;;
 
-# pic는 동작하지 않으며, Android toolchain에도 누락되어있다.
-# 아래 링크에 몇가지 빌드 옵션이 있으나, Atom이 아닌 경우 돌아가지 않을 수 있어 사용하지 않는다.
-# 특히 CPU를 atom으로 주는 경우 emulator에서도 돌아가지 않는다.
+#pic does not work and is missing from the Android toolchain.
+# There are several build options in the link below, but do not use them because they may not run if you are not using Atom.
+# In particular, if the CPU is given as an atom, it will not run in the emulator.
 # https://software.intel.com/en-us/android/blogs/2013/12/06/building-ffmpeg-for-android-on-x86
 	x86)
 		ARCH=x86
@@ -130,7 +130,7 @@ case $1 in
 		LIB_MX="../libs/x86"
 		EXTRA_CFLAGS="-mtune=atom -msse3 -mssse3 -mfpmath=sse"
 
-# 실제로는 sse4.2까지도 내부적으로 cpu feature에 따라 다른 코드를 실행하는 방식으로 지원된다.
+# In fact, even sse4.2 is supported internally by executing different codes depending on CPU features.
 #		EXTRA_PARAMETERS="--disable-sse4"
 		;;
 

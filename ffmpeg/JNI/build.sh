@@ -1,8 +1,8 @@
 #!/bin/bash
-# @note HTC Desire / Motorola Milestone 등의 버그로 v7에서도 armeabi를 로드하여 armeabi에 이름을 바꿔 넣음
+# @note Due to a bug in HTC Desire / Motorola Milestone, etc., armeabi is loaded in v7 and the name is changed to armeabi.
 # @see http://groups.google.com/group/android-ndk/browse_thread/thread/464bab5543c672d4
 
-# API 21이전에는 libc.so에 rand, atof등의 함수가 누락되어있어 x86_64를 제외하고는 API 16을 사용한다.
+# Before API 21, functions such as rand and atof are missing in libc.so, so API 16 is used except for x86_64.
 
 TARGET=$1
 COPY=0
@@ -14,22 +14,22 @@ MAKE=$NDK/ndk-build
 
 prepare()
 {
-	rm -r ../obj/local
+	rm -rfv ../obj/local
 }
 
 prepare_mips()
 {
-	rm -r ../obj/local
+	rm -rfv ../obj/local
 }
 
 prepare_x86()
 {
-	rm -r ../obj/local
+	rm -rfv ../obj/local
 }
 
 prepare_x86_64()
 {
-	rm -r ../obj/local
+	rm -rfv ../obj/local
 }
 
 # MIPS32 revision 2
@@ -40,7 +40,7 @@ mips32r2()
 		echo -ne '\nBUILDING '$TARGET'.MIPS32 rev.2...\n\n'
 		prepare_mips
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=mips \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=15-mips \
@@ -59,7 +59,7 @@ x86_64()
 		echo -ne '\nBUILDING '$TARGET'.x86_64...\n\n'
 		prepare_x86_64
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=x86_64 \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=21-x86_64 \
@@ -79,7 +79,7 @@ x86()
 		echo -ne '\nBUILDING '$TARGET'.x86 Atom...\n\n'
 		prepare_x86
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=x86 \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=16-x86 \
@@ -99,7 +99,7 @@ x86_sse2()
 		echo -ne '\nBUILDING '$TARGET'.x86 SSE2...\n\n'
 		prepare_x86
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=x86 \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=16-x86 \
@@ -118,7 +118,7 @@ arm64()
 		echo -ne '\nBUILDING '$TARGET'.arm64...\n\n'
 		prepare
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=arm64-v8a \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=22-arm64 \
@@ -143,7 +143,7 @@ neon()
 		echo -ne '\nBUILDING '$TARGET'.neon...\n\n'
 		prepare
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=armeabi-v7a \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=16-arm \
@@ -168,7 +168,7 @@ tegra3()
 		echo -ne '\nBUILDING '$TARGET'.tegra3...\n\n'
 		prepare
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=armeabi-v7a \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=16-arm \
@@ -199,7 +199,7 @@ tegra2()
 		prepare
 		echo -ne '\nBUILDING '$TARGET'.tegra2...\n\n'
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=armeabi-v7a \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=16-arm \
@@ -225,7 +225,7 @@ v7a()
 		prepare
 		echo -ne '\nBUILDING '$TARGET'.v7a...\n\n'
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=armeabi-v7a \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=16-arm \
@@ -251,7 +251,7 @@ v6_vfp()
 		prepare
 		echo -ne '\nBUILDING '$TARGET'.v6+vfp...\n\n'
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=armeabi \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=16-arm \
@@ -277,7 +277,7 @@ v6()
 		prepare
 		echo -ne '\nBUILDING '$TARGET'.v6...\n\n'
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=armeabi \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=16-arm \
@@ -302,7 +302,7 @@ v5te()
 		prepare
 		echo -ne '\nBUILDING '$TARGET'.v5te...\n\n'
 		$MAKE NDK_DEBUG=0 \
-				  -j$CPU_CORE \
+				  -j"$(nproc --all)" \
 				  -e APP_ABI=armeabi \
 				  -e APP_PLATFORM=android-$PLATFORM \
 				  -e LINK_AGAINST=16-arm \

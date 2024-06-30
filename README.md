@@ -33,7 +33,7 @@ Visit [https://mx.j2inter.com/ffmpeg](https://mx.j2inter.com/ffmpeg) for more in
 * Extract the downloaded `FFmpeg sources`
 * Open `ffmpeg` -> `JNI` folder
 * ~~Change `CPU_CORE` In `build.sh` and `build-ffmpeg.sh` to match CPU core number of your building machine.~~
-  * At now, `CPU_CORE` counts automaticly via `ENV` file.
+  * At now, `CPU_CORE` replaced and counts automaticly via `$(nproc --all)"`.
 * If you would like to use your own `FFmpeg` build configuration, configs can be changed by editing `config-ffmpeg.sh`.
 * Open `Terminal`.
 * Change the working directory to `ffmpeg/JNI` directory.

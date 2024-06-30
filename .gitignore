@@ -3,6 +3,8 @@
 
 # source archives
 dist/
+_dist/
+*.zip
 
 # Mac specific
 .DS_Store

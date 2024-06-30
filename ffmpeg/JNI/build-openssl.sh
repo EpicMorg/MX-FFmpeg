@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. ENV # Environment
-
 ROOT=$(cd "$(dirname "$0")"; pwd)
 source ${ROOT}/util.sh
 
@@ -62,7 +60,7 @@ if test "$?" != 0; then
 fi
 
 echo "BUILDING openssl.${FLAVOR}"
-make clean; make build_libs -j 4
+make clean; make build_libs -j"$(nproc --all)"
 if test "$?" != 0; then
     die "ERROR: failed to build openssl.${FLAVOR}"
 fi

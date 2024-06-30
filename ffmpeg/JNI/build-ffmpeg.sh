@@ -17,8 +17,6 @@ die(){
     exit 1
 }
 
-. ENV # Environment
-
 # if [ $1 == 'tegra3' ]
 # then
 # 	cd ffmpeg__1.7.39
@@ -28,8 +26,8 @@ die(){
 
 # @see http://stackoverflow.com/questions/38145692/compiling-ffmpeg-3-1-1-for-x86-using-android-ndk
 make clean
-rm compat/strtod.d
-rm compat/strtod.o
+rm -rfv compat/strtod.d
+rm -rfv compat/strtod.o
 
 echo "=====================CONFIGURE FFMPEG FOR $1====================="
 make distclean
@@ -39,7 +37,7 @@ if test "$?" != 0; then
 fi
 
 make clean
-make -j$CPU_CORE
+make -j"$(nproc --all)"
 cd ..
 
 . build.sh ffmpeg.mx build $1
